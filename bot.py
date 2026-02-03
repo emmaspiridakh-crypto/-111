@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.ui import Button, View
 import random
 import os
 from datetime import datetime, timedelta
@@ -9,6 +10,19 @@ from discord.ui import View, Button
 SPIN_CHANNEL_ID = 1467585068934500618
 LOG_CHANNEL_ID = 1467584551261049097
 PANEL_CHANNEL_ID = 1467585068934500618
+
+SUPPORT_CATEGORY_ID = 1465366628622667830
+BUY_CATEGORY_ID = 1465375930321997986
+SUPPORT_CALL_VC_ID = 1465375930321997986
+
+LOGS_CHANNEL_ID = 1465370236243939379
+
+CEO_ROLE_ID = 1465345034030157834
+OWNER_ROLE_ID = 1465345430392017091
+MANAGEMENT_ROLE_ID = 1465360458537111582
+STAFF_ROLE_ID = 1467220345126654185
+
+AUTO_ROLE_ID = 1465360458537111582  # Αυτόματο role σε νέο μέλος
 
 # Cooldown 4 ώρες
 COOLDOWN_HOURS = 4
@@ -96,36 +110,6 @@ async def on_interaction(interaction):
         log_channel = bot.get_channel(LOG_CHANNEL_ID)
         if log_channel:
             await log_channel.send(f"⚠️ {user} έκανε spin και κέρδισε: **{reward}**")
-
-
-# ---------------- RUN BOT ----------------
-TOKEN = os.getenv("DISCORD_TOKEN")
-bot.run(TOKEN)
-
-import discord
-from discord.ext import commands
-from discord.ui import Button, View
-import random
-import os
-from datetime import datetime, timedelta
-
-# --- Bot Setup ---
-intents = discord.Intents.all()
-bot = commands.Bot(command_prefix="!", intents=intents)
-
-# --- Channel & Role IDs ---
-SUPPORT_CATEGORY_ID = 1465366628622667830
-BUY_CATEGORY_ID = 1465375930321997986
-SUPPORT_CALL_VC_ID = 1465375930321997986
-
-LOGS_CHANNEL_ID = 1465370236243939379
-
-CEO_ROLE_ID = 1465345034030157834
-OWNER_ROLE_ID = 1465345430392017091
-MANAGEMENT_ROLE_ID = 1465360458537111582
-STAFF_ROLE_ID = 1467220345126654185
-
-AUTO_ROLE_ID = 1465360458537111582  # Αυτόματο role σε νέο μέλος
 
 # --- Helper Functions ---
 async def create_ticket_channel(member, category_id, name_prefix, allowed_roles):
@@ -296,6 +280,7 @@ async def send_buy_panel(ctx):
 
 # --- Run Bot ---
 bot.run("PUT_YOUR_TOKEN_HERE")
+
 
 
 
