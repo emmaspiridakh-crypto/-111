@@ -116,7 +116,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 # --- Channel & Role IDs ---
 SUPPORT_CATEGORY_ID = 1465366628622667830
 BUY_CATEGORY_ID = 1465375930321997986
-SUPPORT_CALL_VC_ID = 1465366816959234109
+SUPPORT_CALL_VC_ID = 1465375930321997986
 
 LOGS_CHANNEL_ID = 1465370236243939379
 
@@ -296,5 +296,6 @@ async def send_buy_panel(ctx):
 
 # --- Run Bot ---
 bot.run("PUT_YOUR_TOKEN_HERE")
+
 
 
