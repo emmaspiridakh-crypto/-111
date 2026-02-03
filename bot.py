@@ -1,10 +1,12 @@
 import discord
 from discord.ext import commands
+from discord.ext import commands
 from discord.ui import Button, View
+from discord.ui import View, Button
 import random
 import os
 from datetime import datetime, timedelta
-from discord.ui import View, Button
+
 
 # IDs
 SPIN_CHANNEL_ID = 1467585068934500618
@@ -110,6 +112,7 @@ async def on_interaction(interaction):
         log_channel = bot.get_channel(LOG_CHANNEL_ID)
         if log_channel:
             await log_channel.send(f"⚠️ {user} έκανε spin και κέρδισε: **{reward}**")
+
 
 # --- Helper Functions ---
 async def create_ticket_channel(member, category_id, name_prefix, allowed_roles):
@@ -280,6 +283,7 @@ async def send_buy_panel(ctx):
 
 # --- Run Bot ---
 bot.run("PUT_YOUR_TOKEN_HERE")
+
 
 
 
