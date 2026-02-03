@@ -47,8 +47,6 @@ class SpinButton(View):
 async def spinpanel(ctx):
     ...
 
-intents = discord.Intents.all()
-
 
 @bot.event
 async def on_interaction(interaction):
@@ -126,3 +124,4 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 
 
 bot.run(TOKEN)
+
