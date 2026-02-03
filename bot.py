@@ -21,7 +21,7 @@ rewards = [
     ("custom background", 5),           # 10%
 
 ]
-
+intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 
@@ -42,6 +42,7 @@ class SpinButton(View):
             style=discord.ButtonStyle.green,
             custom_id="spin_button"
         ))
+
 
 @bot.command()
 async def spinpanel(ctx):
@@ -124,4 +125,5 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 
 
 bot.run(TOKEN)
+
 
