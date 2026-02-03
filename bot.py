@@ -15,14 +15,15 @@ user_cooldowns = {}
 
 # Rewards με πιθανότητες
 rewards = [
-    ("try again later", 60),          # 60%
-    ("VIP role", 15),                 # 15%
-    ("custom logo/background", 10),   # 10%
-    ("free animation", 10),           # 10%
-    ("custom mini build", 5)          # 5%
+    ("try again later", 65),          # 60%
+    ("VIP role", 25),                 # 15%
+    ("custom logo", 5),   # 10%
+    ("custom background", 5),           # 10%
+
 ]
 
 intents = discord.Intents.all()
+
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 
