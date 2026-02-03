@@ -22,8 +22,6 @@ rewards = [
 
 ]
 
-intents = discord.Intents.all()
-
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 
@@ -33,10 +31,33 @@ def pick_reward():
     return random.choices(items, weights=weights, k=1)[0]
 
 
-@bot.event
-async def on_ready():
-    print(f"Bot connected as {bot.user}")
+from discord.ui import View, Button
 
+class SpinButton(View):
+    def __init__(self):
+        super().__init__(timeout=None)
+
+        self.add_item(Button(
+            label="🎡 Spin!",
+            style=discord.ButtonStyle.green,
+            custom_id="spin_button"
+        ))
+
+@bot.command()
+async def spinpanel(ctx):
+    ...
+
+intents = discord.Intents.all()
+
+
+@bot.event
+async def on_interaction(interaction):
+    if interaction.data.get("custom_id") == "spin_button":
+        reward = pick_reward()
+        await interaction.response.send_message(
+            f"🎉 {interaction.user.mention}, Kέρδισες: **{reward}**!",
+            ephemeral=True
+        )
 
 # ---------------- PANEL COMMAND ----------------
 @bot.command()
@@ -47,12 +68,12 @@ async def spinpanel(ctx):
 
     embed = discord.Embed(
         title="🎡 Spin The Wheel",
-        description="Κάνε `!spin` για να γυρίσεις τον τροχό και να κερδίσεις υπέροχα δώρα!",
+        description="Πάτα το κουμπί για να γυρίσεις τον τροχό!. Για να δεις τι κέρδισες δες τα dms σου!",
         color=discord.Color.gold()
     )
     embed.set_image(url="https://i.imgur.com/Aq9eZcn.jpeg")
 
-    await ctx.send(embed=embed)
+    await ctx.send(embed=embed, view=SpinButton())
 
 
 # ---------------- SPIN COMMAND ----------------
@@ -102,5 +123,6 @@ async def spin(ctx):
 
 # Token από environment variable (DisCloud)
 TOKEN = os.getenv("DISCORD_TOKEN")
+
 
 bot.run(TOKEN)
