@@ -2,8 +2,22 @@ import discord
 from discord.ext import commands
 import random
 import os
+from flask import Flask
 from datetime import datetime, timedelta
 from discord.ui import View, Button
+
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "OK"
+
+def run():
+    app.run(host='0.0.0.0', port=10000)
+
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
 
 # IDs
 SPIN_CHANNEL_ID = 1467585068934500618
@@ -97,10 +111,11 @@ async def on_interaction(interaction):
         if log_channel:
             await log_channel.send(f"⚠️ {user} έκανε spin και κέρδισε: **{reward}**")
 
-
+keep_alive()
 # ---------------- RUN BOT ----------------
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
+
 
 
 
