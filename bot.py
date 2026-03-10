@@ -30,11 +30,61 @@ user_cooldowns = {}
 
 # Rewards
 rewards = [
-    ("try again later", 65),
-    ("VIP role", 25),
-    ("custom logo", 5),
-    ("custom background", 5),
+    ("try again later", 84),
+    
+    ("VIP role", 10),
+    ("custom logo", 3),
+    ("custom background", 3),
 ]
+
+def pick_reward():
+    items = [r[0] for r in rewards]
+    weights = [r[1] for r in rewards]
+    return random.choices(items, weights=weights, k=1)[0]
+
+
+@bot.event
+async def on_interaction(interaction):
+    if interaction.data.get("custom_id") == "spin_button":
+        user = interaction.user
+        now = datetime.utcnow()
+
+        # Cooldown check
+        if user.id in user_cooldowns:
+            last_spin = user_cooldowns[user.id]
+            diff = now - last_spin
+
+            if diff < timedelta(hours=COOLDOWN_HOURS):
+                remaining = timedelta(hours=COOLDOWN_HOURS) - diff
+                hours = int(remaining.total_seconds() // 3600)
+                minutes = int((remaining.total_seconds() % 3600) // 60)
+
+                return await interaction.response.send_message(
+                    f"⏳ Πρέπει να περιμένεις **{hours} ώρες και {minutes} λεπτά** πριν ξανακάνεις spin.",
+                    ephemeral=True
+                )
+
+        # Pick reward
+        reward = pick_reward()
+        user_cooldowns[user.id] = now
+
+        # ---------------- LOSE CASE ----------------
+        if reward == "try again later":
+            await interaction.response.send_message(
+                f"❌ {user.mention}, **You lost! Try again later.**",
+                ephemeral=True
+            )
+        else:
+            # ---------------- WIN CASE ----------------
+            await interaction.response.send_message(
+                f"🎉 {user.mention}, κέρδισες: **{reward}**!",
+                ephemeral=True
+            )
+
+        # Log
+        log_channel = bot.get_channel(LOG_CHANNEL_ID)
+        if log_channel:
+            await log_channel.send(f"⚠️ {user} έκανε spin και κέρδισε: **{reward}**")
 
 # Intents
 intents = discord.Intents.all()
@@ -115,6 +165,7 @@ keep_alive()
 # ---------------- RUN BOT ----------------
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
+
 
 
 
